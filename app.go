@@ -15,6 +15,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	_ "github.com/go-sql-driver/mysql"
+	echopprof "github.com/hiko1129/echo-pprof"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -1264,10 +1265,12 @@ func main() {
 		// 販促実施に応じて，ここの値を変更してください
 		// 詳しくは，specを参照してください．
 		// https://portal.ptc.ntt.dev/spec.html#tag/other
-		return c.String(http.StatusOK, "1")  // 数値を string で第2引数に指定
+		return c.String(http.StatusOK, "1") // 数値を string で第2引数に指定
 	})
 	// public
 	e.Static("/", "public")
+
+	echopprof.Wrap(e)
 
 	if err := http.ListenAndServe(":5000", e); err != nil {
 		log.Fatal(err)
